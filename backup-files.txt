@@ -1,0 +1,11 @@
+src/
+prisma/schema.prisma
+prisma/seed.ts
+.eslintrc.js
+.prettierrc
+.gitignore
+jest.config.js
+nest-cli.json
+package.json
+tsconfig.json
+README.md 
