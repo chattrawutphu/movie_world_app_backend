@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { MoviesService } from './movies.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../auth/roles.guard';
@@ -23,8 +23,11 @@ export class MoviesController {
   constructor(private readonly moviesService: MoviesService) {}
 
   @Get()
-  findAll() {
-    return this.moviesService.findAll();
+  findAll(@Query('page') page?: string, @Query('limit') limit?: string) {
+    return this.moviesService.findAll(
+      page ? parseInt(page, 10) : undefined,
+      limit ? parseInt(limit, 10) : undefined
+    );
   }
 
   @Get(':id')

@@ -15,12 +15,41 @@ interface UpdateMovieDto {
   genre?: string;
 }
 
+export interface PaginatedMoviesResponse {
+  movies: any[];
+  total: number;
+  page: number;
+  limit: number;
+  hasNextPage: boolean;
+}
+
 @Injectable()
 export class MoviesService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll() {
-    return this.prisma.movie.findMany();
+  async findAll(page: number = 1, limit: number = 10): Promise<PaginatedMoviesResponse> {
+    const skip = (page - 1) * limit;
+    
+    const [movies, total] = await Promise.all([
+      this.prisma.movie.findMany({
+        skip,
+        take: limit,
+        orderBy: {
+          createdAt: 'desc',
+        },
+      }),
+      this.prisma.movie.count(),
+    ]);
+
+    const hasNextPage = skip + limit < total;
+
+    return {
+      movies,
+      total,
+      page,
+      limit,
+      hasNextPage,
+    };
   }
 
   async findOne(id: number) {

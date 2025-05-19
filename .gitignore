@@ -34,10 +34,6 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
-# Environment variables
-.env
-.env.*
-
 # Prisma
 /prisma/migrations/
 *.db
@@ -48,4 +44,10 @@ lerna-debug.log*
 
 # Temporary files
 /tmp
-/temp 
+/temp
+
+# Backup files
+*.tar.gz
+*.zip
+*.bak
+backup-*.txt 
